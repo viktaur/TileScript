@@ -1,2 +1,2 @@
 # TileScript
-Fork of the TileScript domain-specific language
+TileScript is a domain-specific interpreted language written in Haskell used to specify tile arrangement patterns.
