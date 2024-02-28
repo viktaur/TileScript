@@ -1,0 +1,30 @@
+Tile tile1 = $1;
+Tile base = compose(
+    rotate(tile1, 0),
+    rotate(tile1, 1),
+    rotate(tile1, 2),
+    rotate(tile1, 3)
+);
+
+Tile originalScaled = scale(tile1, 3);
+
+Tile newx = compose(
+    rotate(originalScaled, 0),
+    rotate(originalScaled, 1),
+    rotate(originalScaled, 2),
+    rotate(originalScaled, 3)
+);
+
+Int n = size(base);
+
+Tile output = newTile(n*5);
+
+for (i in n) {
+    for (j in n) {
+        output <- placeTile(base, output, n, i*n, j*n)
+    }
+};
+
+output <- placeTile(newx, output, size(newx), 8, 8);
+
+export(output)

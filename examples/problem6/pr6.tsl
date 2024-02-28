@@ -1,0 +1,18 @@
+Tile t1 = $1;
+Tile t2 = $2;
+Tile t3 = $3;
+Tile blank = newTile(size(t1));
+
+Base normLine3 = ((t3 ~ t1) ~ t2) <x> 20;
+Base normLine2 = ((t2 ~ t3) ~ t1) <x> 20;
+Base normLine1 = ((t1 ~ t2) ~ t3) <x> 20;
+
+Base fstLine = (((t1 ~ t2) ~ t3) <x> 19) ~ ((t1 ~ blank) ~ blank);
+Base sndLine = (((t2 ~ t3) ~ t1) <x> 19) ~ ((t2 ~ t3) ~ blank);
+
+Base sndLastLine = (blank ~ (t3 ~ t1)) ~ (((t2 ~ t3) ~ t1) <x> 19);
+Base lastLine = (blank ~ (blank ~ t2)) ~ (((t3 ~ t1) ~ t2) <x> 19);
+
+Tile output = ((((((fstLine | sndLine) | normLine3) | ((((normLine1 | normLine2) | normLine3)) <y> 18)) | normLine1) | sndLastLine) | lastLine);
+
+export(output)

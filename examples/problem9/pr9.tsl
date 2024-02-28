@@ -1,0 +1,36 @@
+Tile tile1 = $1;
+
+Tile squareH = newTile(3);
+Int n = 101;
+Tile blank = newTile(3);
+Tile squareV = newTile(0);
+
+for (row in n) {
+    squareH <- newTile(0);
+    for (col in n) {
+        if (2*row < col) {
+            squareH <- tile1 ~ squareH
+        } else {
+            squareH <- squareH ~ blank
+        } 
+    };
+
+    squareV <- squareV | squareH
+};
+
+squareV <- scale(squareV, 1);
+
+Tile rojo = squareV;
+Tile azul = reflectX(rotate(squareV, 1));
+Tile verde = reflectY(rotate(squareV, 2));
+Tile morado = rotate(squareV, 3);
+
+Tile xor1 = and(and(rojo, neg(morado)), neg(azul));
+Tile xor2 = and(and(azul, neg(verde)), neg(rojo));
+
+Tile triangulo1 = and(morado, neg(rojo));
+Tile triangulo2 = and(verde, neg(azul));
+
+Tile output = xor(xor(xor(triangulo1, triangulo2), xor1), xor2);
+
+export(reflectX(rotate(output, 3)))

@@ -1,0 +1,61 @@
+Tile tile1 = $1;
+
+Int n = 101;
+Int s = size(tile1);
+
+Base background = (tile1 <x> n) <y> n;
+Base mask = toBase(newTile(0));
+
+for (i in n) {
+
+    Base h = toBase(newTile(0));
+
+    for (j in n) {
+
+        Tile ones = newTile(s);
+        Tile zeroes = newTile(s);
+            
+        for (i2 in s) {
+            for (j2 in s) {
+                ones[i2][j2] <- 1
+            }
+        };
+        
+        if (2*i < j) {
+            h <- (h ~ ones)
+        } else {
+            h <- (h ~ zeroes)
+        }
+    };
+
+    mask <- (mask | h)
+};
+
+Base ref = reflectX(mask);
+
+// OR
+for (i in n*s) {
+    for (j in n*s) {
+        mask[i][j] <- if ((mask[i][j] == 1) || (ref[i][j] == 1)) { 1 } else { 0 }
+    }
+};
+
+Base uMask = rotate(mask, 3);
+
+// XOR
+for (i in n*s) {
+    for (j in n*s) {
+        mask[i][j] <- if (((mask[i][j] == 1) && (uMask[i][j] == 0)) || ((mask[i][j] == 0) && (uMask[i][j] == 1))) { 1 } else { 0 }
+    }
+};
+
+Tile output = newTile(n*s);
+
+// AND
+for (i in n*s) {
+    for (j in n*s) {
+        output[i][j] <- if ((background[i][j] == 1) && (mask[i][j] == 1)) { 1 } else { 0 }
+    }
+};
+
+export(output)

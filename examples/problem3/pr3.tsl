@@ -1,0 +1,24 @@
+Tile tile1 = $1;
+
+Tile tile1Y = reflectY(tile1);
+Tile tile1X = reflectX(tile1);
+Tile tile1XY = reflectX(reflectY(tile1));
+Tile blank = newTile(size(tile1));
+
+Base base = newBase(size(tile1), size(tile1), 2, 3, [
+    [tile1, tile1Y, blank],
+    [blank, tile1X, tile1XY]    
+]);
+
+Base mirroredBase = base ~ reflectY(base);
+
+Int n = size(tile1);
+Tile output = newTile(60 * n);
+
+for (y in 30) {
+    for (x in 10) {
+        output <- placeBase(mirroredBase, output, height(mirroredBase), width(mirroredBase), y*height(mirroredBase) , x*width(mirroredBase))
+    }
+};
+
+export(output)

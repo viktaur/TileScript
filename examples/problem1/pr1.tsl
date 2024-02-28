@@ -1,0 +1,14 @@
+Tile tile1 = $1;
+Tile tile2 = $2;
+
+Base h1 = tile1 ~ tile2;
+Base h2 = tile2 ~ tile1;
+
+h1 <- h1 <x> 32;
+h2 <- h2 <x> 32;
+
+Base v = h1 | h2;
+
+v <- v <y> 32;
+
+export(v)

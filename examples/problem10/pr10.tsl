@@ -1,0 +1,6 @@
+Tile tile1 = $1;
+Tile tile2 = $2;
+
+Tile output = placeTile(tile2, tile1, size(tile2), 12, 4);
+
+export(output)

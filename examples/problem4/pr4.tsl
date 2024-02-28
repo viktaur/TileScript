@@ -1,0 +1,34 @@
+Tile tile1 = $1;
+Tile tile2 = $2;
+Tile tile3 = $3;
+
+Tile output = newTile(0);
+
+Tile conjunctionNeg1 = and(tile1, neg(tile3));
+Tile conjunctionNeg2 = and(tile2, neg(tile3));
+Base squareH1 = toBase(newTile(0));
+Base squareV1 = toBase(newTile(0));
+Tile blank = newTile(2);
+
+Tile output = newTile(0);
+
+Int n = size(tile1);
+
+for(row in 50){
+    squareH1 <- toBase(newTile(0));
+    for(col in 50){
+        if(((col + row) < 50) && (col < 25)) {
+            squareH1 <- (conjunctionNeg1 ~ squareH1)
+        } else {
+            if ((row <= col) && (col >= 25)) {
+                squareH1 <- (squareH1 ~ conjunctionNeg2)
+            } else {
+                squareH1 <- (squareH1 ~ blank)
+            }
+        }
+    };
+    
+    squareV1 <- squareV1 | squareH1
+};
+
+export(squareV1)

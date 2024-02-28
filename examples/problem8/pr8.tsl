@@ -1,0 +1,45 @@
+Tile blue = $1;
+Tile green = $2;
+
+//composing one base block to later be iterated
+
+Tile base = [[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0]];
+
+Tile scaledGreen = scale(green, 2);
+Tile downGreen = reflectX(green);
+Tile scaledDowngreen = rotate(scaledGreen, 2);
+Tile scaledUpgreen = rotate(scaledGreen, 4);
+
+// Part 1l
+Tile part1al = ((blue | blue) | (green | downGreen)) | blue;
+Tile part1bl = ((blue ~ downGreen) | scaledUpgreen )| scaledDowngreen;
+Tile part1l = part1al ~ part1bl;
+
+// Part 2l
+Tile downGreenUpBluel = downGreen | blue;
+Tile part2l = (scaledDowngreen ~ scaledDowngreen) ~ downGreenUpBluel;
+
+// Part 3l
+Tile bigMl = scaledDowngreen | (blue ~ green);
+Tile bigFl = (blue ~ blue) | scaledGreen;
+Tile part3l = (((downGreen | blue) | blue) ~ bigMl) ~ bigFl;
+
+// Part 1r
+Tile part1br = ((downGreen ~ blue) | scaledUpgreen ) | scaledDowngreen;
+Tile part1r = part1br ~ part1al;
+
+// Part 2r
+Tile part2r = downGreenUpBluel ~ (scaledDowngreen ~ scaledDowngreen);
+
+// Part 3r
+Tile bigMr = scaledDowngreen | (green ~ blue);
+Tile part3r = bigFl ~ (bigMr ~ ((downGreen | blue) | blue));
+
+Tile hugel = part1l ~ (part2l | part3l);
+Tile huger = (part2r | part3r) ~ part1r;
+Tile megal = (hugel | reflectX(hugel)) <y> 4;
+Tile megar = (huger | reflectX(huger)) <y> 4;
+Tile giga = megal ~ megar;
+Tile tera = (giga ~ giga) ~ megal;
+
+export(tera)
